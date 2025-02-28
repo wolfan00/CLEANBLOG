@@ -1,0 +1,26 @@
+{
+  "name": "cleanblog",
+  "version": "1.0.0",
+  "description": "cleanBlog ödevProje",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wolfan00/CLEANBLOG.git"
+  },
+  "author": "Burhan Erkülü",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wolfan00/CLEANBLOG/issues"
+  },
+  "homepage": "https://github.com/wolfan00/CLEANBLOG#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "prettier": "3.5.2"
+  }
+}
