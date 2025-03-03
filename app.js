@@ -1,6 +1,5 @@
 const express = require('express');
-const moment = require("moment");
-const {connection,getPosts} = require(`./models/posts`)
+const {connection,getPosts,createPosts} = require(`./models/posts`)
 const app = express();
 const ejs = require('ejs');
 const port = 5000;
@@ -33,30 +32,9 @@ app.get('/add_post', (req, res) => {
   res.render(`add_post`);
 });
 app.post(`/posts`, async (req, res) => {
-    const { title, description } = req.body; // POST ile gelen JSON verisi
-    const date = moment().format("YYYY-MM-DD HH:mm:ss");
-    let query = "INSERT INTO blogs (title, description, date) VALUES (?, ?, ?)";
-
-    try {
-        // db.query'yi Promise tabanlı hale getir
-        await new Promise((resolve, reject) => {
-            connection.query(query, [title, description, date], (err, result) => {
-                if (err) {
-                    console.error("Veri eklenirken hata:", err);
-                    reject(err); // Hata durumunda reject çağır
-                } else {
-                    console.log("Veri başarıyla eklendi!");
-                    resolve(result); // Başarılıysa resolve çağır
-                }
-            });
-        });
-
-        // Sorgu tamamlandıktan sonra yönlendirme yap
-        res.redirect(`/`);
-    } catch (err) {
-        // Eğer herhangi bir hata meydana gelirse burada yakala
-        res.status(500).send("Veri eklenirken hata oluştu!");
-    }
+   await createPosts(req)
+   res.redirect(`/`)
+    
 });
 app.listen(port, () =>
   console.log(`CleanBlog projesi ${port} dan dinleniyor!`)

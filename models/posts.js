@@ -1,5 +1,5 @@
 const mysql = require(`mysql2`);
-
+const moment = require("moment");
 const connection = mysql.createConnection({
   host: 'localhost', // MySQL sunucu adresi
   user: 'root', // Kullanıcı adı
@@ -31,5 +31,29 @@ const getPosts = (callback) => {
     callback(null, Posts);
   });
 };
-module.exports = {connection,getPosts};
+async function createPosts(req){
+  
+  const { title, description } = req.body; // POST ile gelen JSON verisi
+    const date = moment().format("YYYY-MM-DD HH:mm:ss");
+    let query = "INSERT INTO blogs (title, description, date) VALUES (?, ?, ?)";
+
+    try {
+        // db.query'yi Promise tabanlı hale getir
+        await new Promise((resolve, reject) => {
+            connection.query(query, [title, description, date], (err, result) => {
+                if (err) {
+                    console.error("Veri eklenirken hata:", err);
+                    reject(err); // Hata durumunda reject çağır
+                } else {
+                    console.log("Veri başarıyla eklendi!");
+                    resolve(result); // Başarılıysa resolve çağır
+                }
+            });
+        });
+        
+}catch(err){
+      console.log(err)    
+}
+}
+module.exports = {connection,getPosts,createPosts};
 
